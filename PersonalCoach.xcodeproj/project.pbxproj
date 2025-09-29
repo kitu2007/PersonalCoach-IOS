@@ -6,14 +6,104 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		220891212E29CE4F00322FD9 /* CoachChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2208911E2E29CE4F00322FD9 /* CoachChatView.swift */; };
+		220891222E29CE4F00322FD9 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220891202E29CE4F00322FD9 /* ProgressView.swift */; };
+		220891232E29CE4F00322FD9 /* EditReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2208911F2E29CE4F00322FD9 /* EditReminderView.swift */; };
+		220891282E29CE6100322FD9 /* ResponseRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220891272E29CE6100322FD9 /* ResponseRecord.swift */; };
+		2208912C2E29CEE500322FD9 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2208912A2E29CEE500322FD9 /* OpenAIService.swift */; };
+		2208912D2E29CFCB00322FD9 /* ResponseRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220891272E29CE6100322FD9 /* ResponseRecord.swift */; };
+		2226CACE2E2AF99500653C0D /* WebSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226CACD2E2AF99500653C0D /* WebSearchService.swift */; };
+		222A394F2E08C2A6008744C4 /* PersonalCoachWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 222A39452E08C2A5008744C4 /* PersonalCoachWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		222A39652E08CF32008744C4 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222A39622E08CDE9008744C4 /* Session.swift */; };
+		222A39662E08CF32008744C4 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222A39622E08CDE9008744C4 /* Session.swift */; };
+		222A39672E08CF3F008744C4 /* CoachStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222A39632E08CE23008744C4 /* CoachStore.swift */; };
+		222A39682E08CF3F008744C4 /* CoachStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222A39632E08CE23008744C4 /* CoachStore.swift */; };
+		222A39692E08CF5C008744C4 /* AudioListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222A39642E08CE43008744C4 /* AudioListener.swift */; };
+		227630D52E15168B000E35C0 /* NotificationActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227630D12E15168B000E35C0 /* NotificationActionsView.swift */; };
+		227630D62E15168B000E35C0 /* ReminderResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227630D22E15168B000E35C0 /* ReminderResponseView.swift */; };
+		227630D72E15168B000E35C0 /* RemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227630D32E15168B000E35C0 /* RemindersView.swift */; };
+		227630D82E15168B000E35C0 /* AddReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227630D02E15168B000E35C0 /* AddReminderView.swift */; };
+		227630DB2E15168B000E35C0 /* RemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227630D32E15168B000E35C0 /* RemindersView.swift */; };
+		227630DF2E1516DF000E35C0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227630DD2E1516DF000E35C0 /* NotificationManager.swift */; };
+		227630E02E1516DF000E35C0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227630DD2E1516DF000E35C0 /* NotificationManager.swift */; };
+		2276310B2E28A3BE000E35C0 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227631092E28A3BE000E35C0 /* Reminder.swift */; };
+		2276310C2E28A3BE000E35C0 /* ReminderResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2276310A2E28A3BE000E35C0 /* ReminderResponseType.swift */; };
+		2276310D2E28A3BE000E35C0 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227631092E28A3BE000E35C0 /* Reminder.swift */; };
+		2276310E2E28A3BE000E35C0 /* ReminderResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2276310A2E28A3BE000E35C0 /* ReminderResponseType.swift */; };
+		227631102E28A41A000E35C0 /* ReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2276310F2E28A41A000E35C0 /* ReminderRow.swift */; };
+		227631112E28A41A000E35C0 /* ReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2276310F2E28A41A000E35C0 /* ReminderRow.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		222A394D2E08C2A6008744C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 222A392B2E08C1AC008744C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 222A39442E08C2A5008744C4;
+			remoteInfo = "PersonalCoachWatch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		222A39532E08C2A6008744C4 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				222A394F2E08C2A6008744C4 /* PersonalCoachWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		2208911E2E29CE4F00322FD9 /* CoachChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachChatView.swift; sourceTree = "<group>"; };
+		2208911F2E29CE4F00322FD9 /* EditReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReminderView.swift; sourceTree = "<group>"; };
+		220891202E29CE4F00322FD9 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		220891272E29CE6100322FD9 /* ResponseRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseRecord.swift; sourceTree = "<group>"; };
+		2208912A2E29CEE500322FD9 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
+		2226CACD2E2AF99500653C0D /* WebSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSearchService.swift; sourceTree = "<group>"; };
 		222A39332E08C1AC008744C4 /* PersonalCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersonalCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		222A39452E08C2A5008744C4 /* PersonalCoachWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PersonalCoachWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		222A39622E08CDE9008744C4 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		222A39632E08CE23008744C4 /* CoachStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachStore.swift; sourceTree = "<group>"; };
+		222A39642E08CE43008744C4 /* AudioListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioListener.swift; sourceTree = "<group>"; };
+		222A396B2E08D42B008744C4 /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = ../../../../../../../../System/Library/Frameworks/Speech.framework; sourceTree = "<group>"; };
+		227630D02E15168B000E35C0 /* AddReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderView.swift; sourceTree = "<group>"; };
+		227630D12E15168B000E35C0 /* NotificationActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationActionsView.swift; sourceTree = "<group>"; };
+		227630D22E15168B000E35C0 /* ReminderResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderResponseView.swift; sourceTree = "<group>"; };
+		227630D32E15168B000E35C0 /* RemindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersView.swift; sourceTree = "<group>"; };
+		227630DD2E1516DF000E35C0 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		227631092E28A3BE000E35C0 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
+		2276310A2E28A3BE000E35C0 /* ReminderResponseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderResponseType.swift; sourceTree = "<group>"; };
+		2276310F2E28A41A000E35C0 /* ReminderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		222A39562E08C39F008744C4 /* Exceptions for "PersonalCoach" folder in "PersonalCoach" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 222A39322E08C1AC008744C4 /* PersonalCoach */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		222A39352E08C1AC008744C4 /* PersonalCoach */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				222A39562E08C39F008744C4 /* Exceptions for "PersonalCoach" folder in "PersonalCoach" target */,
+			);
 			path = PersonalCoach;
+			sourceTree = "<group>";
+		};
+		222A39462E08C2A5008744C4 /* PersonalCoachWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "PersonalCoachWatch Watch App";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,13 +116,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		222A39422E08C2A5008744C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2208912B2E29CEE500322FD9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2226CACD2E2AF99500653C0D /* WebSearchService.swift */,
+				2208912A2E29CEE500322FD9 /* OpenAIService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		222A392A2E08C1AC008744C4 = {
 			isa = PBXGroup;
 			children = (
+				2208912B2E29CEE500322FD9 /* Services */,
+				227630DE2E1516DF000E35C0 /* Managers */,
+				227630D42E15168B000E35C0 /* Views */,
+				222A39612E08CCFC008744C4 /* Model */,
+				222A39602E08CCEC008744C4 /* Shared */,
 				222A39352E08C1AC008744C4 /* PersonalCoach */,
+				222A39462E08C2A5008744C4 /* PersonalCoachWatch Watch App */,
+				222A396A2E08D3D8008744C4 /* Frameworks */,
 				222A39342E08C1AC008744C4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,8 +154,60 @@
 			isa = PBXGroup;
 			children = (
 				222A39332E08C1AC008744C4 /* PersonalCoach.app */,
+				222A39452E08C2A5008744C4 /* PersonalCoachWatch Watch App.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		222A39602E08CCEC008744C4 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				222A39642E08CE43008744C4 /* AudioListener.swift */,
+				222A39632E08CE23008744C4 /* CoachStore.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		222A39612E08CCFC008744C4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				220891272E29CE6100322FD9 /* ResponseRecord.swift */,
+				227631092E28A3BE000E35C0 /* Reminder.swift */,
+				2276310A2E28A3BE000E35C0 /* ReminderResponseType.swift */,
+				222A39622E08CDE9008744C4 /* Session.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		222A396A2E08D3D8008744C4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				222A396B2E08D42B008744C4 /* Speech.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		227630D42E15168B000E35C0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2208911E2E29CE4F00322FD9 /* CoachChatView.swift */,
+				2208911F2E29CE4F00322FD9 /* EditReminderView.swift */,
+				220891202E29CE4F00322FD9 /* ProgressView.swift */,
+				2276310F2E28A41A000E35C0 /* ReminderRow.swift */,
+				227630D02E15168B000E35C0 /* AddReminderView.swift */,
+				227630D12E15168B000E35C0 /* NotificationActionsView.swift */,
+				227630D22E15168B000E35C0 /* ReminderResponseView.swift */,
+				227630D32E15168B000E35C0 /* RemindersView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		227630DE2E1516DF000E35C0 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				227630DD2E1516DF000E35C0 /* NotificationManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -55,10 +220,12 @@
 				222A392F2E08C1AC008744C4 /* Sources */,
 				222A39302E08C1AC008744C4 /* Frameworks */,
 				222A39312E08C1AC008744C4 /* Resources */,
+				222A39532E08C2A6008744C4 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				222A394E2E08C2A6008744C4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				222A39352E08C1AC008744C4 /* PersonalCoach */,
@@ -70,6 +237,28 @@
 			productReference = 222A39332E08C1AC008744C4 /* PersonalCoach.app */;
 			productType = "com.apple.product-type.application";
 		};
+		222A39442E08C2A5008744C4 /* PersonalCoachWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 222A39502E08C2A6008744C4 /* Build configuration list for PBXNativeTarget "PersonalCoachWatch Watch App" */;
+			buildPhases = (
+				222A39412E08C2A5008744C4 /* Sources */,
+				222A39422E08C2A5008744C4 /* Frameworks */,
+				222A39432E08C2A5008744C4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				222A39462E08C2A5008744C4 /* PersonalCoachWatch Watch App */,
+			);
+			name = "PersonalCoachWatch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "PersonalCoachWatch Watch App";
+			productReference = 222A39452E08C2A5008744C4 /* PersonalCoachWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -78,9 +267,12 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1630;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					222A39322E08C1AC008744C4 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					222A39442E08C2A5008744C4 = {
 						CreatedOnToolsVersion = 16.3;
 					};
 				};
@@ -94,18 +286,28 @@
 			);
 			mainGroup = 222A392A2E08C1AC008744C4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 222A39342E08C1AC008744C4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				222A39322E08C1AC008744C4 /* PersonalCoach */,
+				222A39442E08C2A5008744C4 /* PersonalCoachWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		222A39312E08C1AC008744C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		222A39432E08C2A5008744C4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -119,10 +321,50 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				222A39672E08CF3F008744C4 /* CoachStore.swift in Sources */,
+				2208912C2E29CEE500322FD9 /* OpenAIService.swift in Sources */,
+				227630D52E15168B000E35C0 /* NotificationActionsView.swift in Sources */,
+				227631102E28A41A000E35C0 /* ReminderRow.swift in Sources */,
+				220891212E29CE4F00322FD9 /* CoachChatView.swift in Sources */,
+				220891222E29CE4F00322FD9 /* ProgressView.swift in Sources */,
+				220891232E29CE4F00322FD9 /* EditReminderView.swift in Sources */,
+				227630D62E15168B000E35C0 /* ReminderResponseView.swift in Sources */,
+				227630E02E1516DF000E35C0 /* NotificationManager.swift in Sources */,
+				227630D72E15168B000E35C0 /* RemindersView.swift in Sources */,
+				227630D82E15168B000E35C0 /* AddReminderView.swift in Sources */,
+				2276310B2E28A3BE000E35C0 /* Reminder.swift in Sources */,
+				220891282E29CE6100322FD9 /* ResponseRecord.swift in Sources */,
+				2276310C2E28A3BE000E35C0 /* ReminderResponseType.swift in Sources */,
+				2226CACE2E2AF99500653C0D /* WebSearchService.swift in Sources */,
+				222A39652E08CF32008744C4 /* Session.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		222A39412E08C2A5008744C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				222A39692E08CF5C008744C4 /* AudioListener.swift in Sources */,
+				2208912D2E29CFCB00322FD9 /* ResponseRecord.swift in Sources */,
+				222A39682E08CF3F008744C4 /* CoachStore.swift in Sources */,
+				227631112E28A41A000E35C0 /* ReminderRow.swift in Sources */,
+				227630DF2E1516DF000E35C0 /* NotificationManager.swift in Sources */,
+				2276310D2E28A3BE000E35C0 /* Reminder.swift in Sources */,
+				2276310E2E28A3BE000E35C0 /* ReminderResponseType.swift in Sources */,
+				227630DB2E15168B000E35C0 /* RemindersView.swift in Sources */,
+				222A39662E08CF32008744C4 /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		222A394E2E08C2A6008744C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 222A39442E08C2A5008744C4 /* PersonalCoachWatch Watch App */;
+			targetProxy = 222A394D2E08C2A6008744C4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		222A393C2E08C1AD008744C4 /* Debug */ = {
@@ -160,6 +402,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = C2RJGRGV2B;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -223,6 +466,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = C2RJGRGV2B;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -249,10 +493,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PersonalCoach/PersonalCoach.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PersonalCoach/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -276,10 +522,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PersonalCoach/PersonalCoach.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PersonalCoach/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -295,6 +543,72 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		222A39512E08C2A6008744C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "PersonalCoachWatch Watch App/PersonalCoachWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PersonalCoachWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = PersonalCoachWatch;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Personal coach needs the microphone to record short voice notes";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Used to convert your speech into text so the coach can respond";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.kg.PersonalCoach;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kg.PersonalCoach.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		222A39522E08C2A6008744C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "PersonalCoachWatch Watch App/PersonalCoachWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PersonalCoachWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = PersonalCoachWatch;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Personal coach needs the microphone to record short voice notes";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Used to convert your speech into text so the coach can respond";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.kg.PersonalCoach;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kg.PersonalCoach.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
 			};
 			name = Release;
 		};
@@ -315,6 +629,15 @@
 			buildConfigurations = (
 				222A393F2E08C1AD008744C4 /* Debug */,
 				222A39402E08C1AD008744C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		222A39502E08C2A6008744C4 /* Build configuration list for PBXNativeTarget "PersonalCoachWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				222A39512E08C2A6008744C4 /* Debug */,
+				222A39522E08C2A6008744C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

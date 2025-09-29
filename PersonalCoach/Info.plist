@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Personal Coach needs the microphone to record short voice notes.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Used to convert your speech into text so the coach can respond.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>We use notifications to remind you about your routines and to show AI responses.</string>
+	<key></key>
+	<string></string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>processing</string>
+		<string>push-to-talk</string>
+		<string>remote-notification</string>
+		<string>voip</string>
+	</array>
+</dict>
+</plist>

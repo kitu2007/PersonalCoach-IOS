@@ -100,10 +100,8 @@ struct PersonalCoachApp: App {
                 }
             }
             .sheet(item: $openedReminder) { reminder in
-                NavigationStack {
-                    ReminderResponseView(reminder: reminder)
-                        .modelContainer(container)
-                }
+                ReminderResponseView(reminder: reminder)
+                    .modelContainer(container)
             }
         }
     }

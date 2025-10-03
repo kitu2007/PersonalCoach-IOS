@@ -10,6 +10,11 @@ struct RemindersView: View {
     @State private var showingNotificationActions = false
     @State private var selectedReminderForResponse: Reminder?
     
+    // Get the container from the context
+    private var container: ModelContainer {
+        modelContext.container
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -96,6 +101,7 @@ struct RemindersView: View {
             }
             .sheet(item: $selectedReminderForResponse) { reminder in
                 ReminderResponseView(reminder: reminder)
+                    .modelContainer(container)
             }
 #endif
         }

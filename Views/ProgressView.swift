@@ -13,14 +13,25 @@ struct ProgressView: View {
         let now = Date()
         let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) ?? now
         
+        print("📊 ProgressView weeklyData calculation:")
+        print("  → Total records in DB: \(allRecords.count)")
+        print("  → Date range: \(weekAgo) to \(now)")
+        
         // Filter records from last 7 days
         let recentRecords = allRecords.filter { $0.timestamp >= weekAgo }
+        print("  → Recent records (last 7 days): \(recentRecords.count)")
+        
+        // Debug: Print all recent records
+        for (idx, record) in recentRecords.enumerated() {
+            print("    [\(idx)] \(record.reminderQuestion) - \(record.timestamp) - completed: \(record.didComplete)")
+        }
         
         // Group by reminder
         var stats: [UUID: ReminderWeeklyStats] = [:]
         
         for reminder in reminders {
             let reminderRecords = recentRecords.filter { $0.reminderID == reminder.id }
+            print("  → Reminder '\(reminder.question)': \(reminderRecords.count) records")
             
             // Calculate daily completion (how many days they responded vs how many days the reminder was active)
             var dailyResponses: [String: Bool] = [:]
@@ -29,11 +40,14 @@ struct ProgressView: View {
                 if dailyResponses[dayKey] == nil || record.didComplete {
                     dailyResponses[dayKey] = record.didComplete
                 }
+                print("    → Day: \(dayKey), didComplete: \(record.didComplete)")
             }
             
             let totalResponses = reminderRecords.count
             let completedResponses = reminderRecords.filter { $0.didComplete }.count
             let daysResponded = dailyResponses.count
+            
+            print("    → Stats: total=\(totalResponses), completed=\(completedResponses), days=\(daysResponded)")
             
             stats[reminder.id] = ReminderWeeklyStats(
                 reminderID: reminder.id,
@@ -54,14 +68,23 @@ struct ProgressView: View {
             VStack(spacing: 0) {
                 // Debug header
                 HStack {
-                    Text("DB: \(allRecords.count) records")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("DB: \(allRecords.count) records")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        if !allRecords.isEmpty {
+                            Text("Latest: \(allRecords.first?.timestamp.formatted(.dateTime.month().day().hour().minute()) ?? "N/A")")
+                                .font(.caption2)
+                                .foregroundStyle(.tertiary)
+                        }
+                    }
                     Spacer()
                     Button("Refresh") {
-                        // Force refresh
-                        modelContext.autosaveEnabled = true
-                        try? modelContext.save()
+                        print("🔄 Manual refresh triggered")
+                        print("  → Current record count: \(allRecords.count)")
+                        for (idx, record) in allRecords.prefix(5).enumerated() {
+                            print("    [\(idx)] \(record.reminderQuestion) @ \(record.timestamp)")
+                        }
                     }
                     .font(.caption)
                 }

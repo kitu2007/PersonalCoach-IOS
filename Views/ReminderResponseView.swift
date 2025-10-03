@@ -85,6 +85,8 @@ struct ReminderResponseView: View {
     
     private func saveResponse() {
         print("🔵 saveResponse called for: \(reminder.question)")
+        print("  → ModelContext: \(modelContext)")
+        print("  → Container: \(modelContext.container)")
         
         var didComplete = false
         var text: String? = nil

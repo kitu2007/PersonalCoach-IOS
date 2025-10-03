@@ -7,6 +7,9 @@ struct ProgressView: View {
     @Query(sort: \ResponseRecord.timestamp, order: .reverse) private var allRecords: [ResponseRecord]
     @Query(sort: \Reminder.question) private var reminders: [Reminder]
     
+    @State private var showTestAlert = false
+    @State private var testAlertMessage = ""
+    
     // Rolling 7-day window
     private var weeklyData: [ReminderWeeklyStats] {
         let calendar = Calendar.current
@@ -260,24 +263,64 @@ struct ProgressView: View {
                     }
                 }
             }
+            .alert("Test Result", isPresented: $showTestAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(testAlertMessage)
+            }
         }
     }
     
     private func addTestData() {
-        guard let firstReminder = reminders.first else { return }
+        print("🧪 Adding test data...")
+        print("  → Available reminders: \(reminders.count)")
+        
+        guard let firstReminder = reminders.first else {
+            print("❌ No reminders available to test with!")
+            testAlertMessage = "No reminders found! Add a reminder first in the Reminders tab."
+            showTestAlert = true
+            return
+        }
+        
+        print("  → Creating record for: \(firstReminder.question)")
+        print("  → Reminder ID: \(firstReminder.id)")
         
         let record = ResponseRecord(
             reminder: firstReminder,
-            didComplete: Bool.random(),
-            text: nil,
+            didComplete: true,
+            text: "Test response at \(Date())",
             scaleValue: nil
         )
+        
+        print("  → Record created with ID: \(record.id)")
+        print("  → Record timestamp: \(record.timestamp)")
+        print("  → Record reminderID: \(record.reminderID)")
+        
         modelContext.insert(record)
+        print("  → Record inserted into context")
+        
         do {
             try modelContext.save()
-            print("✅ Test record added successfully")
+            print("✅ Test record saved successfully!")
+            print("  → Checking database...")
+            
+            // Force refresh the query
+            let descriptor = FetchDescriptor<ResponseRecord>()
+            let allRecordsAfterSave = try? modelContext.fetch(descriptor)
+            let count = allRecordsAfterSave?.count ?? 0
+            print("  → Records in DB now: \(count)")
+            
+            if let latest = allRecordsAfterSave?.first {
+                print("  → Latest record: \(latest.reminderQuestion) @ \(latest.timestamp)")
+            }
+            
+            testAlertMessage = "✅ Test record saved!\n\nTotal records in DB: \(count)\nFor: \(firstReminder.question)\n\nCheck console for details."
+            showTestAlert = true
         } catch {
             print("❌ Failed to add test record: \(error)")
+            print("  → Error details: \(error.localizedDescription)")
+            testAlertMessage = "❌ Failed to save:\n\(error.localizedDescription)"
+            showTestAlert = true
         }
     }
 }

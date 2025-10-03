@@ -162,7 +162,7 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
             allowsSave: true,
             groupContainer: .identifier(sharedAppGroupID)
         )
-        guard let modelContainer = try? ModelContainer(for: Reminder.self, configurations: config) else {
+        guard let modelContainer = try? ModelContainer(for: Reminder.self, ResponseRecord.self, Session.self, configurations: config) else {
             logger.error("Failed to create model container for scheduleAllReminders")
             return
         }
@@ -271,7 +271,7 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
             allowsSave: true,
             groupContainer: .identifier(sharedAppGroupID)
         )
-        guard let modelContainer = try? ModelContainer(for: Reminder.self, configurations: config) else {
+        guard let modelContainer = try? ModelContainer(for: Reminder.self, ResponseRecord.self, Session.self, configurations: config) else {
             logger.error("Failed to create model container")
             return
         }
@@ -402,7 +402,7 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
                     allowsSave: true,
                     groupContainer: .identifier(sharedAppGroupID)
                 )
-                guard let modelContainer = try? ModelContainer(for: Reminder.self, configurations: config) else {
+                guard let modelContainer = try? ModelContainer(for: Reminder.self, ResponseRecord.self, Session.self, configurations: config) else {
                     Logger().error("Failed to create model container")
                     return
                 }

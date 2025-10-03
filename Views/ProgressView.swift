@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import Charts
 
 struct ProgressView: View {
     @Environment(\.modelContext) private var modelContext
@@ -77,10 +78,77 @@ struct ProgressView: View {
                 } else {
                     List {
                         Section {
-                            Text("Rolling 7-Day Window")
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Weekly Activity Count")
+                                    .font(.headline)
+                                Text("Number of times you completed each activity in the last 7 days")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                
+                                if #available(iOS 16.0, *) {
+                                    Chart(weeklyData) { stat in
+                                        BarMark(
+                                            x: .value("Count", stat.completedResponses),
+                                            y: .value("Activity", stat.shortQuestion)
+                                        )
+                                        .foregroundStyle(by: .value("Activity", stat.shortQuestion))
+                                        .annotation(position: .trailing) {
+                                            Text("\(stat.completedResponses)")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                    }
+                                    .chartXAxis {
+                                        AxisMarks(position: .bottom)
+                                    }
+                                    .chartYAxis {
+                                        AxisMarks(position: .leading) { value in
+                                            AxisValueLabel() {
+                                                if let name = value.as(String.self) {
+                                                    Text(name)
+                                                        .font(.caption)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .chartLegend(.hidden)
+                                    .frame(height: CGFloat(weeklyData.count * 50))
+                                    .padding(.vertical, 8)
+                                } else {
+                                    // Fallback for iOS 15 and earlier
+                                    VStack(spacing: 8) {
+                                        ForEach(weeklyData) { stat in
+                                            HStack {
+                                                Text(stat.shortQuestion)
+                                                    .font(.caption)
+                                                    .frame(width: 80, alignment: .leading)
+                                                GeometryReader { geometry in
+                                                    ZStack(alignment: .leading) {
+                                                        Rectangle()
+                                                            .fill(Color.gray.opacity(0.2))
+                                                        Rectangle()
+                                                            .fill(Color.blue)
+                                                            .frame(width: geometry.size.width * CGFloat(stat.completedResponses) / CGFloat(max(weeklyData.map { $0.completedResponses }.max() ?? 1, 1)))
+                                                    }
+                                                }
+                                                .frame(height: 20)
+                                                Text("\(stat.completedResponses)")
+                                                    .font(.caption)
+                                                    .foregroundStyle(.secondary)
+                                                    .frame(width: 30)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.vertical, 8)
+                        }
+                        
+                        Section {
+                            Text("Detailed Stats")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
-                            Text("Shows your performance over the last 7 days")
+                            Text("Rolling 7-day window showing completion and consistency rates")
                                 .font(.caption)
                                 .foregroundStyle(.tertiary)
                         }
@@ -201,6 +269,14 @@ private struct ReminderWeeklyStats: Identifiable {
     let daysResponded: Int
     let completionRate: Double
     let consistencyRate: Double
+    
+    var shortQuestion: String {
+        // Truncate long questions for chart display
+        if question.count > 20 {
+            return String(question.prefix(17)) + "..."
+        }
+        return question
+    }
     
     init(reminderID: UUID, question: String, totalResponses: Int, completedResponses: Int, daysResponded: Int, completionRate: Double, consistencyRate: Double) {
         self.id = UUID()

@@ -8,6 +8,7 @@ struct RemindersView: View {
     
     @State private var showingAddReminder = false
     @State private var showingNotificationActions = false
+    @State private var selectedReminderForResponse: Reminder?
     
     var body: some View {
         NavigationStack {
@@ -36,8 +37,22 @@ struct RemindersView: View {
                 } else {
                     List {
                         ForEach(reminders) { reminder in
-                            NavigationLink(destination: EditReminderView(reminder: reminder)) {
+                            HStack {
                                 ReminderRow(reminder: reminder)
+                                Spacer()
+                                Button {
+                                    selectedReminderForResponse = reminder
+                                } label: {
+                                    Image(systemName: "checkmark.circle")
+                                        .foregroundStyle(.green)
+                                        .font(.title2)
+                                }
+                                .buttonStyle(.borderless)
+                                NavigationLink(destination: EditReminderView(reminder: reminder)) {
+                                    Image(systemName: "gear")
+                                        .foregroundStyle(.blue)
+                                }
+                                .buttonStyle(.borderless)
                             }
                         }
                         .onDelete(perform: deleteReminders)
@@ -78,6 +93,9 @@ struct RemindersView: View {
             }
             .sheet(isPresented: $showingAddReminder) {
                 AddReminderView(timePeriods: TimePeriod.defaultPeriods)
+            }
+            .sheet(item: $selectedReminderForResponse) { reminder in
+                ReminderResponseView(reminder: reminder)
             }
 #endif
         }

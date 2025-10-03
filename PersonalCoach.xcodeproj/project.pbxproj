@@ -33,6 +33,8 @@
 		2276310E2E28A3BE000E35C0 /* ReminderResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2276310A2E28A3BE000E35C0 /* ReminderResponseType.swift */; };
 		227631102E28A41A000E35C0 /* ReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2276310F2E28A41A000E35C0 /* ReminderRow.swift */; };
 		227631112E28A41A000E35C0 /* ReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2276310F2E28A41A000E35C0 /* ReminderRow.swift */; };
+		22F862932E8F76EC00F01454 /* DebugDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F862922E8F76EC00F01454 /* DebugDataView.swift */; };
+		22F862952E8F776900F01454 /* DebugDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F862942E8F776900F01454 /* DebugDataView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +82,8 @@
 		227631092E28A3BE000E35C0 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		2276310A2E28A3BE000E35C0 /* ReminderResponseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderResponseType.swift; sourceTree = "<group>"; };
 		2276310F2E28A41A000E35C0 /* ReminderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderRow.swift; sourceTree = "<group>"; };
+		22F862922E8F76EC00F01454 /* DebugDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DebugDataView.swift; path = Views/DebugDataView.swift; sourceTree = "<group>"; };
+		22F862942E8F776900F01454 /* DebugDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugDataView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -138,6 +142,7 @@
 		222A392A2E08C1AC008744C4 = {
 			isa = PBXGroup;
 			children = (
+				22F862922E8F76EC00F01454 /* DebugDataView.swift */,
 				2208912B2E29CEE500322FD9 /* Services */,
 				227630DE2E1516DF000E35C0 /* Managers */,
 				227630D42E15168B000E35C0 /* Views */,
@@ -190,6 +195,7 @@
 		227630D42E15168B000E35C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				22F862942E8F776900F01454 /* DebugDataView.swift */,
 				2208911E2E29CE4F00322FD9 /* CoachChatView.swift */,
 				2208911F2E29CE4F00322FD9 /* EditReminderView.swift */,
 				220891202E29CE4F00322FD9 /* ProgressView.swift */,
@@ -325,6 +331,7 @@
 				2208912C2E29CEE500322FD9 /* OpenAIService.swift in Sources */,
 				227630D52E15168B000E35C0 /* NotificationActionsView.swift in Sources */,
 				227631102E28A41A000E35C0 /* ReminderRow.swift in Sources */,
+				22F862952E8F776900F01454 /* DebugDataView.swift in Sources */,
 				220891212E29CE4F00322FD9 /* CoachChatView.swift in Sources */,
 				220891222E29CE4F00322FD9 /* ProgressView.swift in Sources */,
 				220891232E29CE4F00322FD9 /* EditReminderView.swift in Sources */,
@@ -335,6 +342,7 @@
 				2276310B2E28A3BE000E35C0 /* Reminder.swift in Sources */,
 				220891282E29CE6100322FD9 /* ResponseRecord.swift in Sources */,
 				2276310C2E28A3BE000E35C0 /* ReminderResponseType.swift in Sources */,
+				22F862932E8F76EC00F01454 /* DebugDataView.swift in Sources */,
 				2226CACE2E2AF99500653C0D /* WebSearchService.swift in Sources */,
 				222A39652E08CF32008744C4 /* Session.swift in Sources */,
 			);

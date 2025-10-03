@@ -63,6 +63,11 @@ struct PersonalCoachApp: App {
                 ProgressView()
                     .tabItem { Label("Progress", systemImage: "chart.bar") }
                     .tag(3)
+                
+                // Uncomment after adding DebugDataView.swift to Xcode project
+                // DebugDataView()
+                //     .tabItem { Label("Debug", systemImage: "ladybug") }
+                //     .tag(4)
             }
             .modelContainer(container)
             .environmentObject(notificationManager)

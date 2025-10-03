@@ -2,6 +2,9 @@ import UserNotifications
 import SwiftUI
 import OSLog
 import SwiftData
+#if os(watchOS)
+import WatchKit
+#endif
 
 @MainActor
 class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNotificationCenterDelegate {
@@ -10,6 +13,7 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
     private let notificationCenter = UNUserNotificationCenter.current()
     private let sharedAppGroupID = "group.com.kg.personalcoach"
     @Published var lastOpenedReminderId: UUID?
+    private let forcedFollowUpDelay: TimeInterval = 90 // seconds
     
     override private init() {
         super.init()
@@ -127,13 +131,6 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
                 logger.info("✅ Scheduled: \(requestId) - \"\(reminder.question)\"")
                 
                 // Verify the notification was scheduled
-                let pending = await center.pendingNotificationRequests()
-                if pending.contains(where: { $0.identifier == requestId }) {
-                    logger.info("   ✓ Confirmed in pending notifications")
-                } else {
-                    logger.warning("   ⚠️ Notification not found in pending list!")
-                }
-                
             } catch {
                 logger.error("❌ Failed to schedule notification: \(error.localizedDescription)")
                 if let error = error as? URLError {
@@ -237,6 +234,9 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         // Ensure actionable banner while app is foreground
         if #available(iOS 14.0, *) {
+#if os(watchOS)
+            WKInterfaceDevice.current().play(.notification)
+#endif
             completionHandler([.banner, .list, .sound, .badge])
         } else {
             completionHandler([.alert, .sound, .badge])
@@ -292,6 +292,9 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
             
             // Handle different response types
             switch response.actionIdentifier {
+            case UNNotificationDefaultActionIdentifier:
+                logger.info("User opened notification for: \(reminder.question)")
+                try context.save()
             case "YES_ACTION":
                 logger.info("User responded Yes to: \(reminder.question)")
                 if reminder.responseType == .both {
@@ -312,16 +315,12 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
                     context.insert(record)
                     try context.save()
                 }
-            case "SNOOZE_5":
-                logger.info("User snoozed 5 minutes for: \(reminder.question)")
-                scheduleSnoozedNotification(for: reminder, after: 5 * 60)
-                try context.save()
-            case "SNOOZE_15":
-                logger.info("User snoozed 15 minutes for: \(reminder.question)")
-                scheduleSnoozedNotification(for: reminder, after: 15 * 60)
-                try context.save()
             case "OPEN_APP":
                 logger.info("User chose to open app for: \(reminder.question)")
+                try context.save()
+            case UNNotificationDismissActionIdentifier, "SKIP_ACTION":
+                logger.info("Reminder dismissed without response: \(reminder.question). Re-scheduling soon.")
+                scheduleSnoozedNotification(for: reminder, after: forcedFollowUpDelay)
                 try context.save()
             case "TEXT_INPUT_ACTION":
                 if let textResponse = (response as? UNTextInputNotificationResponse)?.userText, !textResponse.isEmpty {
@@ -333,7 +332,8 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
                 }
                 
             default:
-                logger.info("User dismissed notification for: \(reminder.question)")
+                logger.info("Unhandled action \(response.actionIdentifier) for: \(reminder.question). Scheduling follow-up.")
+                scheduleSnoozedNotification(for: reminder, after: forcedFollowUpDelay)
                 try context.save()
             }
         } catch {
@@ -464,23 +464,24 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
         var title: String
         var identifier: String
         var style: ActionStyle
+        var requiresUnlock: Bool = false
+        var bringsAppToForeground: Bool = false
         
-        init(id: UUID = UUID(), title: String, identifier: String, style: ActionStyle = .default) {
+        init(id: UUID = UUID(), title: String, identifier: String, style: ActionStyle = .default, requiresUnlock: Bool = false, bringsAppToForeground: Bool = false) {
             self.id = id
             self.title = title
             self.identifier = identifier
             self.style = style
+            self.requiresUnlock = requiresUnlock
+            self.bringsAppToForeground = bringsAppToForeground
         }
     }
     
     // Default actions (include snooze and a foreground "Open App")
     var defaultActions: [NotificationAction] = [
-        NotificationAction(title: "Yes", identifier: "YES_ACTION"),
-        NotificationAction(title: "No", identifier: "NO_ACTION"),
-        NotificationAction(title: "Snooze 5m", identifier: "SNOOZE_5"),
-        NotificationAction(title: "Snooze 15m", identifier: "SNOOZE_15"),
-        NotificationAction(title: "Open App", identifier: "OPEN_APP"),
-        NotificationAction(title: "Dismiss", identifier: "SKIP_ACTION", style: .destructive)
+        NotificationAction(title: "Yes", identifier: "YES_ACTION", requiresUnlock: true),
+        NotificationAction(title: "No", identifier: "NO_ACTION", requiresUnlock: true),
+        NotificationAction(title: "Open App", identifier: "OPEN_APP", bringsAppToForeground: true)
     ]
     
     @Published var customActions: [NotificationAction] = []
@@ -490,8 +491,10 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
         let allActions = defaultActions + customActions
         
         // Create notification actions
-        var notificationActions: [UNNotificationAction] = allActions.map { action in
-            let options: UNNotificationActionOptions = (action.identifier == "OPEN_APP") ? [.foreground] : action.style.systemStyle
+        let notificationActions: [UNNotificationAction] = allActions.map { action in
+            var options: UNNotificationActionOptions = action.style.systemStyle
+            if action.requiresUnlock { options.insert(.authenticationRequired) }
+            if action.bringsAppToForeground { options.insert(.foreground) }
             return UNNotificationAction(identifier: action.identifier, title: action.title, options: options)
         }
         // A dedicated text input category is created in showTextInput when needed.
@@ -519,8 +522,11 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
         }
         content.userInfo = ["reminderId": reminder.id.uuidString]
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
-        let req = UNNotificationRequest(identifier: "\(reminder.id.uuidString)_snooze_\(Int(seconds))", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(req) { error in
+        let identifier = "\(reminder.id.uuidString)_snooze_\(Int(seconds))"
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [identifier])
+        let req = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        center.add(req) { error in
             if let error = error { self.logger.error("Failed to schedule snooze: \(error.localizedDescription)") }
         }
     }

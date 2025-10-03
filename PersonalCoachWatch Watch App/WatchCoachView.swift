@@ -94,13 +94,6 @@ struct WatchCoachView: View {
         reminder.lastResponse = response ? "Yes" : "No"
         reminder.lastResponseDate = Date()
         
-        // Update the response count
-        let calendar = Calendar.current
-        if calendar.isDateInToday(reminder.lastResponseDate ?? Date()) {
-            // Increment response count if it exists, otherwise set to 1
-            reminder.responseCount = (reminder.responseCount ?? 0) + 1
-        }
-        
         // Schedule a new quote for the next interaction
         currentQuote = motivationalQuotes.randomElement() ?? "Great job! Keep it up!"
         

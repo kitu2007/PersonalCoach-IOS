@@ -17,112 +17,85 @@ struct ContentView: View {
     @State private var showingDatabaseError = false
     
     var body: some View {
-        TabView {
-            // ◆ Home tab
-            NavigationStack {
-                VStack(spacing: 20) {
-                    Image(systemName: "bell.badge.fill")
-                        .font(.system(size: 60))
-                        .foregroundColor(.blue)
-                    
-                    Text("Personal Coach")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    Text("Stay on track with your daily routines and habits")
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.secondary)
-                    
-                    NavigationLink(destination: RemindersView()) {
-                        HStack {
-                            Image(systemName: "plus.circle.fill")
-                            Text("Add New Reminder")
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                    }
-                    .padding(.top, 20)
-                    
-                    if !reminders.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Upcoming Reminders")
-                                .font(.headline)
-                                .padding(.top)
-                            
-                            ForEach(reminders.prefix(3)) { reminder in
-                                HStack {
-                                    Circle()
-                                        .fill(reminder.isActive ? Color.green : Color.gray)
-                                        .frame(width: 10, height: 10)
-                                    Text(reminder.question)
-                                        .lineLimit(1)
-                                    Spacer()
-                                    if let nextTime = nextScheduledTime(for: reminder) {
-                                        Text(nextTime, style: .time)
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                    }
-                                }
+        NavigationStack {
+            List {
+                // Home Section
+                Section {
+                    VStack(spacing: 20) {
+                        Image(systemName: "bell.badge.fill")
+                            .font(.system(size: 60))
+                            .foregroundColor(.blue)
+                        
+                        Text("Personal Coach")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                        
+                        Text("Stay on track with your daily routines and habits")
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.secondary)
+                        
+                        NavigationLink {
+                            RemindersView()
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("Add New Reminder")
                             }
-                            
-                            if reminders.count > 3 {
-                                NavigationLink("View All Reminders", destination: RemindersView())
-                                    .font(.caption)
-                                    .foregroundColor(.blue)
-                                    .padding(.top, 5)
-                            }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                         }
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color(.secondarySystemBackground))
-                        .cornerRadius(10)
                         .padding(.top, 20)
                     }
+                    .padding(.vertical)
                 }
-                .padding()
-                .navigationTitle("Home")
-                .onAppear {
-                    if !hasCleanedDuplicates {
-                        cleanDuplicateReminders()
-                        hasCleanedDuplicates = true
-                    }
-                }
-                .alert("Database Error", isPresented: $showingDatabaseError) {
-                    Button("Reset Database") {
-                        resetDatabase()
-                    }
-                    Button("Cancel", role: .cancel) { }
-                } message: {
-                    Text("There was an issue with the database. You can reset it to fix the problem.")
-                }
-            }
-            .tabItem {
-                Label("Home", systemImage: "house")
-            }
-            
-            // ◆ Quotes tab
-            NavigationStack {
-                VStack(spacing: 12) {
-                    if store.quotes.isEmpty {
-                        ContentUnavailableView(
-                            "No Quotes",
-                            systemImage: "text.quote",
-                            description: Text("Add some motivational quotes to get started")
-                        )
-                    } else {
-                        List {
-                            ForEach(store.quotes, id: \.self) { quote in
-                                Text(quote)
-                                    .padding(.vertical, 8)
+                
+                // Upcoming Reminders Section
+                if !reminders.isEmpty {
+                    Section("Upcoming Reminders") {
+                        ForEach(reminders.prefix(5)) { reminder in
+                            HStack {
+                                Circle()
+                                    .fill(reminder.isActive ? Color.green : Color.gray)
+                                    .frame(width: 10, height: 10)
+                                Text(reminder.question)
+                                    .lineLimit(1)
+                                Spacer()
+                                if let nextTime = nextScheduledTime(for: reminder) {
+                                    Text(nextTime, style: .time)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
                             }
+                        }
+                        
+                        if reminders.count > 5 {
+                            NavigationLink("View All Reminders") {
+                                RemindersView()
+                            }
+                            .font(.caption)
+                        }
+                    }
+                }
+                
+                // Quotes Section
+                Section("Motivational Quotes") {
+                    if store.quotes.isEmpty {
+                        Text("No quotes yet. Add some below!")
+                            .foregroundColor(.secondary)
+                            .italic()
+                    } else {
+                        ForEach(store.quotes, id: \.self) { quote in
+                            Text(quote)
+                                .padding(.vertical, 4)
                         }
                     }
                     
                     HStack {
                         TextField("Add a new quote", text: $newQuote)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .textFieldStyle(.roundedBorder)
                         
                         Button(action: addQuote) {
                             Image(systemName: "plus.circle.fill")
@@ -130,21 +103,32 @@ struct ContentView: View {
                                 .foregroundColor(.blue)
                         }
                         .disabled(newQuote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        .frame(minWidth: 44, minHeight: 44)
                     }
-                    .padding()
+                    .padding(.vertical, 4)
                 }
-                .navigationTitle("Motivational Quotes")
             }
-            .tabItem {
-                Label("Quotes", systemImage: "text.quote")
+            .navigationTitle("More")
+            .onAppear {
+                if !hasCleanedDuplicates {
+                    cleanDuplicateReminders()
+                    hasCleanedDuplicates = true
+                }
+                
+                // Check for database errors
+                do {
+                    _ = try modelContext.fetch(FetchDescriptor<Reminder>())
+                } catch {
+                    showingDatabaseError = true
+                }
             }
-        }
-        .onAppear {
-            // Check for database errors
-            do {
-                _ = try modelContext.fetch(FetchDescriptor<Reminder>())
-            } catch {
-                showingDatabaseError = true
+            .alert("Database Error", isPresented: $showingDatabaseError) {
+                Button("Reset Database") {
+                    resetDatabase()
+                }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("There was an issue with the database. You can reset it to fix the problem.")
             }
         }
     }

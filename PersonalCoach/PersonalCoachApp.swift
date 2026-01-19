@@ -46,22 +46,28 @@ struct PersonalCoachApp: App {
     var body: some Scene {
         WindowGroup {
             TabView(selection: $selectedTab) {
+                // Uncomment after adding TodayView.swift to Xcode project
+                // TodayView()
+                //     .modelContainer(container)
+                //     .tabItem { Label("Today", systemImage: "calendar") }
+                //     .tag(0)
+                
                 CoachChatView()
                     .modelContainer(container)
                     .tabItem { Label("Coach", systemImage: "message") }
                     .tag(0)
                 
-                ContentView()
-                    .modelContainer(container)
-                    .tabItem { Label("Home", systemImage: "house") }
-                    .tag(1)
-                
                 RemindersView()
                     .tabItem { Label("Reminders", systemImage: "bell") }
-                    .tag(2)
+                    .tag(1)
                 
                 ProgressView()
                     .tabItem { Label("Progress", systemImage: "chart.bar") }
+                    .tag(2)
+                
+                ContentView()
+                    .modelContainer(container)
+                    .tabItem { Label("More", systemImage: "ellipsis.circle") }
                     .tag(3)
                 
                 // Uncomment after adding DebugDataView.swift to Xcode project
@@ -90,8 +96,9 @@ struct PersonalCoachApp: App {
                 }
             }
             .onReceive(notificationManager.$lastOpenedReminderId.compactMap { $0 }) { reminderId in
-                // Always bring to Reminders and present response UI so a tap never "does nothing"
-                selectedTab = 2
+                // Always bring to Reminders tab and present response UI so a tap never "does nothing"
+                // Change to selectedTab = 0 after adding TodayView
+                selectedTab = 1
                 Task { @MainActor in
                     let desc = FetchDescriptor<Reminder>(predicate: #Predicate { $0.id == reminderId })
                     if let reminder = try? container.mainContext.fetch(desc).first {
@@ -100,8 +107,8 @@ struct PersonalCoachApp: App {
                 }
             }
             .sheet(item: $openedReminder) { reminder in
-                ReminderResponseView(reminder: reminder)
-                    .modelContainer(container)
+                    ReminderResponseView(reminder: reminder)
+                        .modelContainer(container)
             }
         }
     }

@@ -108,7 +108,8 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
                 }
                 content.userInfo = [
                     "reminderId": reminderId,
-                    "timePeriodId": time.periodId.uuidString
+                    "timePeriodId": time.periodId.uuidString,
+                    "hapticIntensity": "high" // Custom key for watch haptics
                 ]
                 
                 // Create the trigger - use time interval for testing, calendar for production
@@ -208,7 +209,8 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
                     }
                     content.userInfo = [
                         "reminderId": item.reminder.id.uuidString,
-                        "timePeriodId": item.time.periodId.uuidString
+                        "timePeriodId": item.time.periodId.uuidString,
+                        "hapticIntensity": "high" // Custom key for watch haptics
                     ]
 
                     let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
@@ -235,7 +237,12 @@ class NotificationManager: NSObject, ObservableObject, @preconcurrency UNUserNot
         // Ensure actionable banner while app is foreground
         if #available(iOS 14.0, *) {
 #if os(watchOS)
+            // Play haptic feedback on watch
             WKInterfaceDevice.current().play(.notification)
+            // Additional strong haptic
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                WKInterfaceDevice.current().play(.directionUp)
+            }
 #endif
             completionHandler([.banner, .list, .sound, .badge])
         } else {

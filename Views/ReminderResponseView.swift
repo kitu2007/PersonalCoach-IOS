@@ -84,48 +84,36 @@ struct ReminderResponseView: View {
     }
     
     private func saveResponse() {
-        print("🔵 saveResponse called for: \(reminder.question)")
-        print("  → ModelContext: \(modelContext)")
-        print("  → Container: \(modelContext.container)")
-        
         var didComplete = false
         var text: String? = nil
         var scaleValue: Int? = nil
+        
         switch reminder.responseType {
         case .yesNo:
             didComplete = (yesNo == true)
-            print("  → Response type: yesNo, didComplete: \(didComplete)")
         case .text:
             text = textResponse.trimmingCharacters(in: .whitespacesAndNewlines)
             didComplete = !(text ?? "").isEmpty
-            print("  → Response type: text, text: '\(text ?? "")', didComplete: \(didComplete)")
         case .both:
             didComplete = (yesNo == true)
             text = textResponse.trimmingCharacters(in: .whitespacesAndNewlines)
-            print("  → Response type: both, didComplete: \(didComplete), text: '\(text ?? "")'")
         case .scale:
             scaleValue = Int(scale)
             didComplete = true
-            print("  → Response type: scale, value: \(scaleValue!), didComplete: \(didComplete)")
         }
         
         reminder.lastResponse = text ?? (scaleValue != nil ? "\(scaleValue!)" : (didComplete ? "Yes" : "No"))
         reminder.lastResponseDate = Date()
         
         let record = ResponseRecord(reminder: reminder, didComplete: didComplete, text: text, scaleValue: scaleValue)
-        print("  → Created ResponseRecord: reminderID=\(record.reminderID), question='\(record.reminderQuestion)'")
-        print("  → Record timestamp: \(record.timestamp)")
-        
         modelContext.insert(record)
-        print("  → Inserted record into modelContext")
         
         do {
             try modelContext.save()
-            print("✅ ResponseRecord saved successfully!")
-            print("  → Saved to database at \(Date())")
         } catch {
-            print("❌ Failed to save ResponseRecord: \(error)")
-            print("  → Error details: \(error.localizedDescription)")
+            #if DEBUG
+            print("Failed to save ResponseRecord: \(error.localizedDescription)")
+            #endif
         }
         
         dismiss()

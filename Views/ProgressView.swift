@@ -7,8 +7,10 @@ struct ProgressView: View {
     @Query(sort: \ResponseRecord.timestamp, order: .reverse) private var allRecords: [ResponseRecord]
     @Query(sort: \Reminder.question) private var reminders: [Reminder]
     
+    #if DEBUG
     @State private var showTestAlert = false
     @State private var testAlertMessage = ""
+    #endif
     
     // Rolling 7-day window
     private var weeklyData: [ReminderWeeklyStats] {
@@ -16,25 +18,14 @@ struct ProgressView: View {
         let now = Date()
         let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) ?? now
         
-        print("📊 ProgressView weeklyData calculation:")
-        print("  → Total records in DB: \(allRecords.count)")
-        print("  → Date range: \(weekAgo) to \(now)")
-        
         // Filter records from last 7 days
         let recentRecords = allRecords.filter { $0.timestamp >= weekAgo }
-        print("  → Recent records (last 7 days): \(recentRecords.count)")
-        
-        // Debug: Print all recent records
-        for (idx, record) in recentRecords.enumerated() {
-            print("    [\(idx)] \(record.reminderQuestion) - \(record.timestamp) - completed: \(record.didComplete)")
-        }
         
         // Group by reminder
         var stats: [UUID: ReminderWeeklyStats] = [:]
         
         for reminder in reminders {
             let reminderRecords = recentRecords.filter { $0.reminderID == reminder.id }
-            print("  → Reminder '\(reminder.question)': \(reminderRecords.count) records")
             
             // Calculate daily completion (how many days they responded vs how many days the reminder was active)
             var dailyResponses: [String: Bool] = [:]
@@ -43,14 +34,11 @@ struct ProgressView: View {
                 if dailyResponses[dayKey] == nil || record.didComplete {
                     dailyResponses[dayKey] = record.didComplete
                 }
-                print("    → Day: \(dayKey), didComplete: \(record.didComplete)")
             }
             
             let totalResponses = reminderRecords.count
             let completedResponses = reminderRecords.filter { $0.didComplete }.count
             let daysResponded = dailyResponses.count
-            
-            print("    → Stats: total=\(totalResponses), completed=\(completedResponses), days=\(daysResponded)")
             
             stats[reminder.id] = ReminderWeeklyStats(
                 reminderID: reminder.id,
@@ -68,38 +56,11 @@ struct ProgressView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                // Debug header
-                HStack {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("DB: \(allRecords.count) records")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                        if !allRecords.isEmpty {
-                            Text("Latest: \(allRecords.first?.timestamp.formatted(.dateTime.month().day().hour().minute()) ?? "N/A")")
-                                .font(.caption2)
-                                .foregroundStyle(.tertiary)
-                        }
-                    }
-                    Spacer()
-                    Button("Refresh") {
-                        print("🔄 Manual refresh triggered")
-                        print("  → Current record count: \(allRecords.count)")
-                        for (idx, record) in allRecords.prefix(5).enumerated() {
-                            print("    [\(idx)] \(record.reminderQuestion) @ \(record.timestamp)")
-                        }
-                    }
-                    .font(.caption)
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 8)
-                .background(Color.secondary.opacity(0.1))
-                
                 if weeklyData.isEmpty {
                     ContentUnavailableView(
                         "No Weekly Data",
                         systemImage: "chart.bar",
-                        description: Text("Complete reminders to see your weekly progress")
+                        description: Text("Complete reminders over the next few days to see your weekly progress and trends")
                     )
                 } else {
                     List {
@@ -254,6 +215,7 @@ struct ProgressView: View {
                 }
             }
             .navigationTitle("Weekly Progress")
+            #if DEBUG
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -268,22 +230,17 @@ struct ProgressView: View {
             } message: {
                 Text(testAlertMessage)
             }
+            #endif
         }
     }
     
+    #if DEBUG
     private func addTestData() {
-        print("🧪 Adding test data...")
-        print("  → Available reminders: \(reminders.count)")
-        
         guard let firstReminder = reminders.first else {
-            print("❌ No reminders available to test with!")
             testAlertMessage = "No reminders found! Add a reminder first in the Reminders tab."
             showTestAlert = true
             return
         }
-        
-        print("  → Creating record for: \(firstReminder.question)")
-        print("  → Reminder ID: \(firstReminder.id)")
         
         let record = ResponseRecord(
             reminder: firstReminder,
@@ -292,37 +249,21 @@ struct ProgressView: View {
             scaleValue: nil
         )
         
-        print("  → Record created with ID: \(record.id)")
-        print("  → Record timestamp: \(record.timestamp)")
-        print("  → Record reminderID: \(record.reminderID)")
-        
         modelContext.insert(record)
-        print("  → Record inserted into context")
         
         do {
             try modelContext.save()
-            print("✅ Test record saved successfully!")
-            print("  → Checking database...")
-            
-            // Force refresh the query
             let descriptor = FetchDescriptor<ResponseRecord>()
             let allRecordsAfterSave = try? modelContext.fetch(descriptor)
             let count = allRecordsAfterSave?.count ?? 0
-            print("  → Records in DB now: \(count)")
-            
-            if let latest = allRecordsAfterSave?.first {
-                print("  → Latest record: \(latest.reminderQuestion) @ \(latest.timestamp)")
-            }
-            
-            testAlertMessage = "✅ Test record saved!\n\nTotal records in DB: \(count)\nFor: \(firstReminder.question)\n\nCheck console for details."
+            testAlertMessage = "✅ Test record saved!\n\nTotal records in DB: \(count)\nFor: \(firstReminder.question)"
             showTestAlert = true
         } catch {
-            print("❌ Failed to add test record: \(error)")
-            print("  → Error details: \(error.localizedDescription)")
             testAlertMessage = "❌ Failed to save:\n\(error.localizedDescription)"
             showTestAlert = true
         }
     }
+    #endif
 }
 
 // MARK: - Models

@@ -18,7 +18,17 @@ struct ReminderRow: View {
             }
             
             if !reminder.times.isEmpty {
-                Text(reminder.times.map { $0.timeString }.joined(separator: ", "))
+                let sortedTimes = reminder.times.sorted { ($0.hour, $0.minute) < ($1.hour, $1.minute) }
+                let timeStrings = sortedTimes.map { $0.timeString }
+                let displayText: String
+                if timeStrings.count <= 3 {
+                    displayText = timeStrings.joined(separator: ", ")
+                } else {
+                    let firstThree = timeStrings.prefix(3).joined(separator: ", ")
+                    let remaining = timeStrings.count - 3
+                    displayText = "\(firstThree) +\(remaining) more"
+                }
+                Text(displayText)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
